@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+
+if __name__ == '__main__':
+    # TODO: Check that the current folder is a git repo
+    # TODO: Check that there is a `master` branch and no `main` branch
+    # TODO: Check that the git status is clean
+
+    print("Moving the ‘master’ branch to ‘main’...")
+    os.system('git branch -m master main')
+
+    print("Pushing ‘main’ to remote repo...")
+    os.system('git push -u origin main')
+
+    print("Pointing HEAD to ‘main’ branch...")
+    os.system('git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main')
+
+    print("Opening GitHub settings: please manually change the branch to ‘main’ on GitHub...")
+    os.system('hub browse')
+    # TODO: Get username/repo from git remote and `open https://github.com/username/repo/settings/branches/`
+    # git config --get remote.origin.url
+    
+    input("> Press [Enter] when done.")
+
+    print("Deleting ‘master’ branch on the remote repo...")
+    os.system('git push origin --delete master')

@@ -7,10 +7,10 @@ requirements = [x.strip() for x in content if 'git+' not in x]
 
 setup(name='ditchmaster',
       version="1.0",
-      description="Project Description",
+      description="Replace master branch with main",
       packages=find_packages(),
       test_suite = 'tests',
       # include_package_data: to install data from MANIFEST.in
       include_package_data=True,
-      scripts=['scripts/ditchmaster-run'],
+      scripts=['ditchmaster'],
       zip_safe=False)
