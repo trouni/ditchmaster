@@ -1,3 +1,3 @@
-# Ditch `master` branch
+# The masterless repo
 
-Tool to change your repository's default branch from master to main
+Simple CLI tool to change a repository's default branch from `master` to `main`
