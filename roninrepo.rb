@@ -2,7 +2,7 @@ class RoninRepo < Formula
   desc "Simple CLI tool to change a repository's default branch from master to main."
   homepage "https://github.com/trouni/roninrepo"
   url "https://github.com/trouni/roninrepo/blob/main/dist/roninrepo-0.1.tar.gz"
-  sha256 "31793e7e72092de60b83ee73d8d714abedb462f2f39442437266eba87b901fd7"
+  sha256 "bb456339f133134d616df5936d94a8bec9a135e3dc25d7b89ead0f70cb26d620"
   license "MIT"
 
   # depends_on "cmake" => :build
