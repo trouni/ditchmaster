@@ -1,28 +1,66 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import subprocess
 
 if __name__ == '__main__':
-    # TODO: Check that the current folder is a git repo
-    # TODO: Check that there is a `master` branch and no `main` branch
-    # TODO: Check that the git status is clean
+    # Check that the current folder is a git repo
+    is_git = subprocess.run("git status", shell=True, capture_output=True).returncode == 0
+    if not is_git:
+        print("This folder is not a git repository.")
+        exit()
+
+    # Check that there is a `master` branch and no `main` branch
+    # TODO: Add option to use branch other than `main`
+    has_master = subprocess.run("git branch | grep master", shell=True, capture_output=True).returncode == 0
+    has_main = subprocess.run("git branch | grep main", shell=True, capture_output=True).returncode == 0
+    if not has_master:
+        print("This git repository is already masterless.")
+        exit()
+    elif has_main:
+        print("This git repository already has a main branch.")
+        exit()
+
+    # Check that the git status is clean
+    is_clean = subprocess.run("git status | grep 'nothing to commit'", shell=True, capture_output=True).returncode == 0
+    if not is_clean:
+        print("There are uncommitted changes. Please first clean your git status then try again.")
+        exit()
 
     print("Moving the ‘master’ branch to ‘main’...")
-    os.system('git branch -m master main')
+    # os.system('git branch -m master main')
+    cmd = subprocess.run("git branch -m master main", shell=True, capture_output=True)
+    if cmd.returncode != 0:
+        print(f"There was an error:\n{cmd.stderr}")
+        exit()
 
-    print("Pushing ‘main’ to remote repo...")
-    os.system('git push -u origin main')
+    print("Pushing ‘main’ to remote repo...\n")
+    # TODO: Add option to --set-upstream / -u
+    cmd = subprocess.run("git push origin main", shell=True, capture_output=False)
+    if cmd.returncode != 0:
+        exit()
 
-    print("Pointing HEAD to ‘main’ branch...")
-    os.system('git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main')
+    print("\nPointing HEAD to ‘main’ branch...")
+    cmd = subprocess.run("git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/main", shell=True, capture_output=True)
+    if cmd.returncode != 0:
+        print(f"There was an error:\n{cmd.stderr}")
+        exit()
 
-    print("Opening GitHub settings: please manually change the branch to ‘main’ on GitHub...")
-    os.system('hub browse')
-    # TODO: Get username/repo from git remote and `open https://github.com/username/repo/settings/branches/`
-    # git config --get remote.origin.url
+    print("Opening GitHub settings: please manually change the branch to ‘main’ on GitHub...\n")
+    # Get username/repo from git remote
+    cmd = subprocess.run("git config --get remote.origin.url", shell=True, capture_output=True)
+    repo_path = cmd.stdout.decode("utf-8").strip().split(':')[-1][:-4]
+    # Open repo settings page on Github
+    repo_url = f"https://github.com/{repo_path}/settings/branches/"
+    subprocess.run(f"open {repo_url}", shell=True, capture_output=True)
     
-    input("> Press [Enter] when done.")
+    input("> Press [Enter] when done.\n")
 
     print("Deleting ‘master’ branch on the remote repo...")
-    os.system('git push origin --delete master')
+    cmd = subprocess.run("git push origin --delete master", shell=True, capture_output=True)
+    # TODO: Handle case when deleting fails
+    if cmd.returncode != 0:
+        print(f"There was an error:\n{cmd.stderr}")
+        exit()
+    else:
+        print("The master branch has successfully been changed to main.")
