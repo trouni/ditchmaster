@@ -2,7 +2,7 @@
 *.pyc
 *.swp
 build/
-dist/
+# dist/
 .coverage
 .ipynb_checkpoints
 *.iml
