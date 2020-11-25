@@ -1,7 +1,7 @@
-class Gitronin < Formula
+class RoninRepo < Formula
   desc "Simple CLI tool to change a repository's default branch from master to main."
-  homepage "https://github.com/trouni/gitronin"
-  url "https://github.com/trouni/gitronin/blob/main/dist/gitronin-0.1.tar.gz"
+  homepage "https://github.com/trouni/roninrepo"
+  url "https://github.com/trouni/roninrepo/blob/main/dist/roninrepo-0.1.tar.gz"
   sha256 "31793e7e72092de60b83ee73d8d714abedb462f2f39442437266eba87b901fd7"
   license "MIT"
 
@@ -22,7 +22,7 @@ class Gitronin < Formula
     #
     # This test will fail and we won't accept that! For Homebrew/homebrew-core
     # this will need to be a test that verifies the functionality of the
-    # software. Run the test with `brew test gitronin`. Options passed
+    # software. Run the test with `brew test roninrepo`. Options passed
     # to `brew install` such as `--HEAD` also need to be provided to `brew test`.
     #
     # The installed folder is not in the path, so use the entire path to any
